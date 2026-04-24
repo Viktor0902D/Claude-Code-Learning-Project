@@ -7,7 +7,7 @@ import {
 } from "@ai-sdk/provider";
 
 const ANTHROPIC_MODEL = "claude-haiku-4-5";
-const GOOGLE_MODEL = "gemini-2.5-flash";
+const GOOGLE_MODEL = "gemini-2.5-flash-lite";
 
 export class MockLanguageModel implements LanguageModelV1 {
   readonly specificationVersion = "v1" as const;

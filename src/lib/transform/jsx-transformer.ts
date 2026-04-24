@@ -20,12 +20,21 @@ export { ${componentName} };
 }
 
 
+// Some models escape single quotes as \' — strip the spurious backslash so
+// Babel doesn't fail with "Expecting Unicode escape sequence \uXXXX".
+function fixEscapedQuotes(code: string): string {
+  // Replace \' with ' and \" with " only when they appear as string delimiters
+  // (i.e. the backslash is NOT itself preceded by another backslash).
+  return code.replace(/(?<!\\)\\'/g, "'").replace(/(?<!\\)\\"/g, '"');
+}
+
 export function transformJSX(
   code: string,
   filename: string,
   existingFiles: Set<string>
 ): TransformResult {
   try {
+    code = fixEscapedQuotes(code);
     const isTypeScript = filename.endsWith(".ts") || filename.endsWith(".tsx");
 
     // Pre-process imports to handle missing files
